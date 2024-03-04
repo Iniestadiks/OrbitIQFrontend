@@ -129,7 +129,17 @@ const resetView = () => {
         orbite: "164.8 années terrestres"
       }
     };
-  
+    const planetTextures = {
+        Mercure: '/images/Planètes/8k_mercury.jpg',
+        Vénus: '/images/Planètes/8k_venus_surface.jpg',
+        Terre: '/images/Terre/8k_earth_daymap.jpg',
+        Mars: '/images/Planètes/8k_mars.jpg',
+        Jupiter: '/images/Planètes/8k_jupiter.jpg',
+        Saturne: '/images/Planètes/8k_saturn.jpg',
+        Uranus: '/images/Planètes/2k_uranus.jpg',
+        Neptune: '/images/Planètes/2k_neptune.jpg'
+      };
+      
     useEffect(() => {
       const scene = new THREE.Scene();
       const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -137,6 +147,8 @@ const resetView = () => {
       const renderer = new THREE.WebGLRenderer();
       renderer.setSize(window.innerWidth, window.innerHeight);
       mountRef.current.appendChild(renderer.domElement);
+      const textureLoader = new THREE.TextureLoader(); // Déclarez textureLoader ici
+      const loader = new FontLoader();
       // Création du fond étoilé
       const createStars = () => {
         const starsGeometry = new THREE.BufferGeometry();
@@ -167,7 +179,6 @@ const resetView = () => {
   
       // Ajout de LensFlare pour un effet de lumière plus dramatique
       const lensflareImgPath = `${process.env.PUBLIC_URL}/images/lensflare.png`;
-      const textureLoader = new THREE.TextureLoader();
       textureLoader.load(lensflareImgPath, (texture) => {
         const lensflare = new Lensflare();
         lensflare.addElement(new LensflareElement(texture, 700, 0));
@@ -178,7 +189,6 @@ const resetView = () => {
       new OrbitControls(camera, renderer.domElement);
   
         const planetInfo = [];
-        const loader = new FontLoader();
         loader.load('fonts/Sixty_Regular.json', (font) => {
           const planetNames = ["Mercure", "Vénus", "Terre", "Mars", "Jupiter", "Saturne", "Uranus", "Neptune"];
           const planetSpeeds = {"Mercure": 4.74, "Vénus": 3.5, "Terre": 2.98, "Mars": 2.41, "Jupiter": 1.31, "Saturne": 0.97, "Uranus": 0.68, "Neptune": 0.54};
@@ -193,114 +203,142 @@ const resetView = () => {
               "Neptune": 49244,
             };
           const diametersArray = []; // Pour stocker les informations des diamètres pour l'affichage
-  
-          planetNames.forEach((name, index) => {
-            const radius = 20 + index * 5;
-            const angle = Math.random() * Math.PI * 2; // Angle initial aléatoire pour chaque planète
-            const orbitSpeed = planetSpeeds[name] * 0.0001;
           
-          const points = [];
-          for (let i = 0; i <= 360; i += 1) {
+          // Assurez-vous que textureLoader est bien défini quelque part dans votre code
+        const textureLoader = new THREE.TextureLoader();
+
+        planetNames.forEach((name, index) => {
+        const radius = 20 + index * 5; // Définit la distance de chaque planète par rapport au centre
+        const angle = Math.random() * Math.PI * 2; // Crée un angle aléatoire pour chaque planète
+        const orbitSpeed = planetSpeeds[name] * 0.0001;
+
+        // Crée une orbite circulaire pour chaque planète
+        const points = [];
+        for (let i = 0; i <= 360; i++) {
             const radians = THREE.MathUtils.degToRad(i);
             points.push(new THREE.Vector3(Math.cos(radians) * radius, Math.sin(radians) * radius, 0));
-          }
-          const orbitGeometry = new THREE.BufferGeometry().setFromPoints(points);
-          scene.add(new THREE.LineLoop(orbitGeometry, new THREE.LineBasicMaterial({ color: 0xaaaaaa })));
-  
-          const textGeometry = new TextGeometry(name, { font, size: 3, height: 0.1 });
-          const textMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
-          const textMesh = new THREE.Mesh(textGeometry, textMaterial);
-          textMesh.position.set(Math.cos(angle) * radius, Math.sin(angle) * radius, 0);
-          scene.add(textMesh);
+        }
+        const orbitGeometry = new THREE.BufferGeometry().setFromPoints(points);
+        scene.add(new THREE.LineLoop(orbitGeometry, new THREE.LineBasicMaterial({ color: 0xaaaaaa })));
+
+                // Crée un texte pour chaque planète
+        const textGeometry = new TextGeometry(name, { font, size: 3, height: 0.1 });
+        const textMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
+        const textMesh = new THREE.Mesh(textGeometry, textMaterial);
+        textMesh.position.set(Math.cos(angle) * radius, Math.sin(angle) * radius, 0);
+        textMesh.name = `Text_${name}`; // Important pour la détection de clic
+        scene.add(textMesh);
+
+        // Création de la sphère de la planète (Sans texture)
+        const planetGeometry = new THREE.SphereGeometry((planetDiameters[name] / 12742) * 5, 32, 32);
+        const planetMaterial = new THREE.MeshBasicMaterial({ color: 0x555555, transparent: true, opacity: 0 }); // Transparent initialement
+        const planetMesh = new THREE.Mesh(planetGeometry, planetMaterial);
+        planetMesh.position.set(Math.cos(angle) * radius, Math.sin(angle) * radius, 0);
+        planetMesh.name = `Planet_${name}`;
+        scene.add(planetMesh);
         
-          const scale = (planetDiameters[name] / 12742) * 0.1; // Ajustez cette échelle au besoin
-          const planetGeometry = new THREE.SphereGeometry(scale, 32, 32);
-          const planetMaterial = new THREE.MeshBasicMaterial({ color: THREE.MathUtils.randInt(0x555555, 0xffffff) });
-          const planetMesh = new THREE.Mesh(planetGeometry, planetMaterial);
-          // Lors de la création de chaque planète et texte
-          planetMesh.name = `Planet_${name}`;
-      textMesh.name = `Text_${name}`;
-          planetMesh.position.set(Math.cos(angle) * radius, Math.sin(angle) * radius, 0);
-          scene.add(planetMesh);
-        
-          // Affichage du diamètre de la planète dans la console (cela sera exécuté une seule fois)
-          console.log(`${name}: Diamètre = ${planetDiameters[name]} km`);
-        
-          planetInfo.push({
-            textMesh,
-            planetMesh,
-            radius,
-            angle,
-            speed: orbitSpeed, // Assurez-vous que cette vitesse est ajustée selon votre logique
-          });
-        
-          // Ajout de l'info de diamètre pour l'affichage UI
-          const diameterInfo = `${name}: Diamètre = ${planetDiameters[name]} km`;
-          diametersArray.push(diameterInfo);
+            planetInfo.push({
+              textMesh,
+              planetMesh,
+              radius,
+              angle,
+              speed: orbitSpeed
+            });
+    
+
+        // Ajoute les diamètres des planètes à un tableau pour l'affichage
+        const diameterInfo = `${name}: Diamètre = ${planetDiameters[name]} km`;
+        diametersArray.push(diameterInfo);
         });
-          // Mise à jour de l'état avec les informations des diamètres
-          setDiametersInfo(diametersArray);
+
+        // Met à jour le state avec les informations des diamètres des planètes
+        setDiametersInfo(diametersArray);
         });
           
   
     
-        // la fonction d'animation pour utiliser rotationSpeed et diameterScale
-    const animate = () => {
-      requestAnimationFrame(animate);
-      // Utilisation de rotationSpeed pour ajuster la vitesse de rotation
-      sun.rotation.y += 0.004 * rotationSpeed;
-      planetInfo.forEach(planet => {
-          if (isAnimating) {
+        // Fonction d'animation
+const animate = () => {
+    requestAnimationFrame(animate);
+
+    // Rotation du soleil
+    sun.rotation.y += 0.004 * rotationSpeed;
+
+    planetInfo.forEach(planet => {
+        // Mise à jour de la position orbitale
+        if (isAnimating) {
             planet.angle += planet.speed * rotationSpeed;
             const x = Math.cos(planet.angle) * planet.radius;
             const y = Math.sin(planet.angle) * planet.radius;
             planet.textMesh.position.set(x, y, 0);
             planet.planetMesh.position.set(x, y, 0);
-          }
-          planet.planetMesh.scale.set(diameterScale, diameterScale, diameterScale); // Ajustement de l'échelle en fonction de diameterScale
-        });
-  
-        renderer.render(scene, camera);
-      };
+        }
+
+        // Ajustement de la taille de la planète
+        planet.planetMesh.scale.set(diameterScale, diameterScale, diameterScale);
+
+        // Rotation de la planète (si activée)
+        if (planet.isRotating) {
+            planet.planetMesh.rotation.y += 0.01; // Ajustez cette valeur pour la vitesse de rotation
+        }
+    });
+
+    renderer.render(scene, camera);
+};
+
       
     const raycaster = new THREE.Raycaster();
     const mouse = new THREE.Vector2();
     
-    function onMouseClick(event) {
-        event.preventDefault();
-    
-        // Conversion de la position du clic en coordonnées normalisées de la caméra
-        mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-        mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-    
-        // Mise à jour du raycaster avec la position de la souris
-        raycaster.setFromCamera(mouse, camera);
-    
-        // Détection des objets intersectés par le raycaster
-        const intersects = raycaster.intersectObjects(scene.children, true);
-    
-        for (let intersect of intersects) {
-            if (intersect.object.name.startsWith('Planet_') || intersect.object.name.startsWith('Text_')) {
-                const planetName = intersect.object.name.split('_')[1];
-                setSelectedPlanet(planetName); // Met à jour l'état avec le nom de la planète sélectionnée
-    
-                // Animation de la caméra pour le zoom (à ajuster selon vos besoins)
-                // Vous pouvez utiliser GSAP ou une autre bibliothèque d'animation pour cela
+   // Fonction pour gérer le clic sur une planète
+   function onMouseClick(event) {
+    event.preventDefault();
+    mouse.x = (event.clientX / renderer.domElement.clientWidth) * 2 - 1;
+    mouse.y = -(event.clientY / renderer.domElement.clientHeight) * 2 + 1;
+    raycaster.setFromCamera(mouse, camera);
+    const intersects = raycaster.intersectObjects(scene.children);
+
+    for (let intersect of intersects) {
+        if (intersect.object.name.startsWith('Text_')) {
+            const planetName = intersect.object.name.split('_')[1];
+            setSelectedPlanet(planetName); // Mise à jour de l'état avec le nom de la planète sélectionnée
+
+            const selectedPlanetMesh = scene.getObjectByName(`Planet_${planetName}`);
+            if (selectedPlanetMesh) {
+                // Appliquer la texture à la planète correspondante
+                const texture = new THREE.TextureLoader().load(planetTextures[planetName]);
+                selectedPlanetMesh.material.map = texture;
+                selectedPlanetMesh.material.opacity = 1; // Rendre la texture visible
+                selectedPlanetMesh.material.needsUpdate = true;
+
+                // Animation de la caméra pour le zoom et de la planète pour l'agrandissement
                 gsap.to(camera.position, {
                     x: intersect.object.position.x,
                     y: intersect.object.position.y,
-                    z: 50, // Ajustez cette valeur pour contrôler le niveau de zoom
-                    duration: 1 // Durée de l'animation en secondes
+                    z: 30, // Plus près de la planète
+                    duration: 2, // Durée de l'animation
+                    onComplete: () => {
+                        // Une fois l'animation terminée, afficher les informations de la planète
+                        setInfoBoxStyle({
+                            opacity: 1,
+                            transform: 'scale(1)',
+                            transition: 'opacity 2s, transform 2s'
+                        });
+                    }
                 });
-     // Animation pour afficher la boîte d'informations
-     setInfoBoxStyle({ // Mise à jour de l'état pour l'animation
-        opacity: 2, // Devenir complètement visible
-        transform: 'scale(3)' // Passer de réduit à taille normale
-    });
-                break; // Sortie de la boucle une fois la planète trouvée
+
+                // Animation pour agrandir la planète
+                gsap.to(selectedPlanetMesh.scale, {
+                    x: 1500, // Agrandir la planète raisonnablement
+                    y: 1500,
+                    z: 1500,
+                    duration: 2 // Temps de l'animation
+                });
             }
+            break; // Sortie de la boucle une fois la planète trouvée
         }
     }
+}
     window.addEventListener('click', onMouseClick);
   
         animate();
@@ -352,12 +390,7 @@ const resetView = () => {
       </div>
       {/* Zone d'affichage de la scène 3D */}
       <div ref={mountRef} style={{ width: '100%', height: '100%' }} />
-      {/* Affichage des informations des diamètres */}
-      <div style={{ position: "absolute", top: 50, left: 20, zIndex: 100, color: "white" }}>
-        {diametersInfo.map((info, index) => (
-          <p key={index}>{info}</p>
-        ))}
-      </div>
+    
      {/* Nouvelle section pour les informations détaillées de la planète sélectionnée */}
     {selectedPlanet && (
       <div className="planet-details" style={{
