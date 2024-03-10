@@ -36,3 +36,13 @@
     transform: rotate(360deg);
   }
 }
+.App {
+    min-height: 100vh; /* Garantit que l'application remplit au moins la hauteur complète de la fenêtre */
+    position: relative;
+    padding-bottom: 120px; /* Ajuste cela pour être au moins aussi haut que ton footer pour éviter le chevauchement */
+}
+
+.content {
+    flex: 1; /* Permet au contenu de remplir tout l'espace disponible */
+    padding-bottom: 120px; /* Ajoute un espace en bas pour ne pas être caché par le pied de page */
+}
