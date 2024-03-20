@@ -191,8 +191,8 @@ function SpaceExplorer() {
 
     const planetInfo = [];
     loader.load('fonts/Sixty_Regular.json', (font) => {
-      const planetNames = ["Mercure", "Venus", "Terre", "Mars", "Jupiter", "Saturne", "Uranus", "Neptune"];
-      const planetSpeeds = {"Mercure": 4.74, "Venus": 3.5, "Terre": 2.98, "Mars": 2.41, "Jupiter": 1.31, "Saturne": 0.97, "Uranus": 0.68, "Neptune": 0.54};
+      const planetNames = ["Mercure", "Vénus", "Terre", "Mars", "Jupiter", "Saturne", "Uranus", "Neptune"];
+      const planetSpeeds = {"Mercure": 4.74, "Vénus": 3.5, "Terre": 2.98, "Mars": 2.41, "Jupiter": 1.31, "Saturne": 0.97, "Uranus": 0.68, "Neptune": 0.54};
       const planetDiameters = {
           "Mercure": 4879,
           "Vénus": 12104,
@@ -259,29 +259,24 @@ function SpaceExplorer() {
     
     // Fonction d'animation
     const animate = () => {
-        requestAnimationFrame(animate);
+    requestAnimationFrame(animate);
+    // Rotation du soleil
+    sun.rotation.y += 0.004 * rotationSpeed;
+    planetInfo.forEach(planet => {
+      if (isAnimating) {
+        planet.angle += planet.speed * rotationSpeed;
+        const x = Math.cos(planet.angle) * planet.radius;
+        const y = Math.sin(planet.angle) * planet.radius;
+        planet.textMesh.position.set(x, y, 0);
+        planet.planetMesh.position.set(x, y, 0);
+      }
+      // Appliquez l'échelle basée sur diameterScale tout en maintenant la possibilité de zoom personnalisé
+      const scale = diameterScale * (planet.initialScale || 1);
+      planet.planetMesh.scale.set(scale, scale, scale);
+    });
+    renderer.render(scene, camera);
+  };
 
-        // Rotation du soleil
-        sun.rotation.y += 0.004 * rotationSpeed;
-
-        planetInfo.forEach(planet => {
-          if (isAnimating) {
-              planet.angle += planet.speed * rotationSpeed;
-              const x = Math.cos(planet.angle) * planet.radius;
-              const y = Math.sin(planet.angle) * planet.radius;
-              planet.textMesh.position.set(x, y, 0);
-              planet.planetMesh.position.set(x, y, 0);
-          }
-
-          // Appliquez l'échelle basée sur diameterScale tout en maintenant la possibilité de zoom personnalisé
-          if (!planet.customZoom) { // Assurez-vous que cette propriété est définie lors du zoom
-              const scale = diameterScale * (planet.initialScale || 1);
-              planet.planetMesh.scale.set(scale, scale, scale);
-          }
-        });
-
-        renderer.render(scene, camera);
-    };
     
     const raycaster = new THREE.Raycaster();
     const mouse = new THREE.Vector2();
@@ -366,7 +361,7 @@ function SpaceExplorer() {
     <div style={{ position: "relative", width: '100vw', height: '100vh' }}>
       <div style={{
         position: "absolute",
-        bottom: 20,
+        top: 20, // Changé de bottom à top pour déplacer les contrôles en haut
         left: "50%",
         transform: "translateX(-50%)",
         backgroundColor: "rgba(0,0,0,0.7)",
@@ -381,7 +376,7 @@ function SpaceExplorer() {
         <button onClick={() => setIsAnimating(!isAnimating)} style={{
           padding: "10px 20px",
           fontSize: "16px",
-          backgroundColor: "#4CAF50",
+          backgroundColor: "grey", // Couleur du bouton changée à gris
           color: "white",
           border: "none",
           borderRadius: "5px",
@@ -405,7 +400,6 @@ function SpaceExplorer() {
           position: 'absolute',
           top: '10%',
           left: '10px',
-          transform: infoBoxStyle.transform,
           zIndex: 105,
           color: 'white',
           backgroundColor: 'rgba(0, 0, 0, 0.7)',
@@ -431,7 +425,7 @@ function SpaceExplorer() {
             marginTop: '20px',
             padding: '10px 20px',
             fontSize: '16px',
-            backgroundColor: '#4CAF50',
+            backgroundColor: 'grey', // Changé en gris
             color: 'white',
             border: 'none',
             borderRadius: '5px',
