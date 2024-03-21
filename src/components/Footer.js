@@ -15,7 +15,7 @@ function Footer() {
             zIndex: 10 // Assure-toi que le z-index est approprié pour que le footer reste sous les éléments interactifs
         }}>
             {/* Autres éléments du footer */}
-            <Link to="/contact" style={{ color: 'white', textDecoration: 'none', marginRight: '10px' }}>Contactez-nous</Link> | 
+            <Link to="/contact" style={{ color: 'white', textDecoration: 'none', marginRight: '10px' }}>Nous contacter</Link> | 
             <Link to="/faq" style={{ color: 'white', textDecoration: 'none', marginRight: '10px' }}>FAQ</Link> | 
             <Link to="/cgu" style={{ color: 'white', textDecoration: 'none', marginRight: '10px' }}>CGU</Link> | 
             <Link to="/newsletter" style={{ color: 'white', textDecoration: 'none', marginRight: '10px' }}>Newsletter</Link> | 
