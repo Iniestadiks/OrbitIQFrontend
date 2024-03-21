@@ -9,6 +9,7 @@ import CGU from './components/CGU';
 import Newsletter from './components/Newsletter';
 import Socials from './components/Socials';
 import About from './components/About';
+import Quiz from './components/Quiz';
 import Menu from './components/Menu';
 import Footer from './components/Footer';
 
@@ -27,6 +28,7 @@ function App() {
           <Route path="/newsletter" element={<Newsletter />} />
           <Route path="/socials" element={<Socials />} />
           <Route path="/about" element={<About />} />
+          <Route path="/quiz" element={<Quiz />} />
         </Routes>
         <Footer />
       </div>
