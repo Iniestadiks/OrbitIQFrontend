@@ -11,6 +11,8 @@ import Socials from './components/Socials';
 import About from './components/About';
 import Menu from './components/Menu';
 import Footer from './components/Footer';
+import Register from './components/Register';
+import Connexion from './components/Connexion';
 
 function App() {
   return (
@@ -27,6 +29,8 @@ function App() {
           <Route path="/newsletter" element={<Newsletter />} />
           <Route path="/socials" element={<Socials />} />
           <Route path="/about" element={<About />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/connexion" element={<Connexion />} />
         </Routes>
         <Footer />
       </div>

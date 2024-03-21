@@ -50,6 +50,8 @@ function Menu() {
             <div style={menuStyle}>
                 <Link to="/" style={linkStyle}>Accueil</Link>
                 <Link to="/articles" style={linkStyle}>Articles</Link>
+                <Link to="/register" style={linkStyle}>Register</Link>
+                <Link to="/connexion" style={linkStyle}>connexion</Link>
                 {/* Ajoutez d'autres liens au besoin */}
             </div>
         </div>
