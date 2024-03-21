@@ -21,7 +21,8 @@ function Footer() {
             <Link to="/cgu" style={{ color: 'white', textDecoration: 'none', marginRight: '10px' }}>CGU</Link> | 
             <Link to="/newsletter" style={{ color: 'white', textDecoration: 'none', marginRight: '10px' }}>Newsletter</Link> | 
             <Link to="/socials" style={{ color: 'white', textDecoration: 'none', marginRight: '10px' }}>Réseaux Sociaux</Link> | 
-            <Link to="/about" style={{ color: 'white', textDecoration: 'none' }}>À propos</Link>
+            <Link to="/about" style={{ color: 'white', textDecoration: 'none', marginRight: '10px' }}>À propos</Link> | 
+            <Link to="/quiz" style={{ color: 'white', textDecoration: 'none' }}>Quiz</Link> 
             <div>
                 <p style={{ fontSize: '14px', margin: '0' }}>© {currentYear} ORBITIQ. Tous droits réservés.</p>
             </div>
