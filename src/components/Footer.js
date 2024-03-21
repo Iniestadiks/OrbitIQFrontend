@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 function Footer() {
+    const currentYear = new Date().getFullYear();
     return (
         <footer style={{
             position: 'fixed',
@@ -21,6 +22,9 @@ function Footer() {
             <Link to="/newsletter" style={{ color: 'white', textDecoration: 'none', marginRight: '10px' }}>Newsletter</Link> | 
             <Link to="/socials" style={{ color: 'white', textDecoration: 'none', marginRight: '10px' }}>Réseaux Sociaux</Link> | 
             <Link to="/about" style={{ color: 'white', textDecoration: 'none' }}>À propos</Link>
+            <div>
+                <p style={{ fontSize: '14px', margin: '0' }}>© {currentYear} ORBITIQ. Tous droits réservés.</p>
+            </div>
         </footer>
     );
 }
