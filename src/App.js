@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './App.css';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'; // Assurez-vous d'importer Navigate
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import SpaceExplorer from './components/SpaceExplorer';
 import Articles from './components/Articles';
 import ContactForm from './components/ContactForm';
@@ -16,8 +16,6 @@ import Connexion from './components/Connexion';
 import Quiz from './components/Quiz';
 
 function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false); // Simulez l'authentification utilisateur
-
   const refreshHome = () => {
     window.location.href = '/';
   };
@@ -33,7 +31,7 @@ function App() {
               <p style={{ fontSize: '16px', marginTop: '4px' }}>Découvrez l'univers à portée de main</p>
             </div>
           </div>
-          <Menu isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} />
+          <Menu />
         </div>
         <div className="content">
           <Routes>
@@ -46,8 +44,8 @@ function App() {
             <Route path="/socials" element={<Socials />} />
             <Route path="/about" element={<About />} />
             <Route path="/register" element={<Register />} />
-            <Route path="/connexion" element={<Connexion setIsAuthenticated={setIsAuthenticated} />} />
-            <Route path="/quiz" element={isAuthenticated ? <Quiz /> : <Navigate replace to="/connexion" />} />
+            <Route path="/connexion" element={<Connexion />} />
+            <Route path="/quiz" element={<Quiz />} />
           </Routes>
         </div>
         <Footer />
