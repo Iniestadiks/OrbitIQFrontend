@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-
+import './Quiz.css';
 function Quiz() {
     // Définir les questions et les réponses
-    const questions = [
+    const [questions, setQuestions] = useState([
         {
             id: 1,
             question: 'Quelle est la plus grande planète du système solaire ?',
@@ -68,96 +68,82 @@ function Quiz() {
             answered: false
         },
         // Ajoutez d'autres questions ici
-    ];
+]);
 
-    // Initialiser l'état pour suivre la question actuelle et les réponses de l'utilisateur
     const [currentQuestion, setCurrentQuestion] = useState(0);
     const [userAnswers, setUserAnswers] = useState([]);
     const [showScore, setShowScore] = useState(false);
 
-    // Gérer la sélection de réponse par l'utilisateur
     const handleAnswerClick = (selectedOption) => {
-        const isCorrect = selectedOption === questions[currentQuestion].correctAnswer;
-        setUserAnswers([...userAnswers, { questionId: questions[currentQuestion].id, selectedOption, isCorrect }]);
-        // Mettre à jour l'option sélectionnée et marquer la question comme répondue
-        questions[currentQuestion].selectedOption = selectedOption;
-        questions[currentQuestion].answered = true;
+        // Mise à jour de la réponse utilisateur
+        const newAnswers = [...userAnswers, { questionId: questions[currentQuestion].id, selectedOption, isCorrect: selectedOption === questions[currentQuestion].correctAnswer }];
+        setUserAnswers(newAnswers);
+
+        // Mise à jour de l'option sélectionnée pour la question actuelle
+        const newQuestions = questions.map((q, index) => {
+            if (index === currentQuestion) {
+                return { ...q, selectedOption };
+            }
+            return q;
+        });
+        setQuestions(newQuestions);
     };
 
-    // Calculer le score total de l'utilisateur
     const calculateScore = () => {
         const correctAnswersCount = userAnswers.filter(answer => answer.isCorrect).length;
         return Math.round((correctAnswersCount / questions.length) * 100);
     };
 
-    // Afficher le score final
     const showFinalScore = () => {
         setShowScore(true);
     };
 
-    // Retourner à la première question
     const returnToFirstQuestion = () => {
         setCurrentQuestion(0);
         setUserAnswers([]);
         setShowScore(false);
-        // Réinitialiser les options sélectionnées et les questions répondus
-        questions.forEach(question => {
-            question.selectedOption = null;
-            question.answered = false;
-        });
+        setQuestions(questions.map(q => ({ ...q, selectedOption: '' })));
     };
 
-    // Aller à la question précédente
     const goToPreviousQuestion = () => {
-        if (currentQuestion > 0) {
-            setCurrentQuestion(currentQuestion - 1);
-        }
+        setCurrentQuestion(currentQuestion > 0 ? currentQuestion - 1 : 0);
     };
 
     return (
-        <div>
+        <div className="quiz-container">
             {showScore ? (
-                <div>
+                <div className="quiz-score">
                     <h2>Votre score final est de {calculateScore()}%</h2>
-                    <p>Merci d'avoir participé au quiz !</p>
-                    <button onClick={returnToFirstQuestion}  style={{ margin: '5px', width: '200px', padding: '10px' }}>Recommencer le quiz</button>
+                    <button onClick={returnToFirstQuestion} className="quiz-button">Recommencer le quiz</button>
                 </div>
             ) : (
-                <div>
+                <div className="quiz-question">
                     <h2>Question {currentQuestion + 1}</h2>
                     <h3>{questions[currentQuestion].question}</h3>
-                    <ul>
+                    <ul className="quiz-options">
                         {questions[currentQuestion].options.map((option, index) => (
                             <li key={index}>
                                 <button
-                                    className={option === questions[currentQuestion].selectedOption ? 'selected' : ''}
+                                    className={`quiz-button ${option === questions[currentQuestion].selectedOption ? 'selected' : ''}`}
                                     onClick={() => handleAnswerClick(option)}
-                                    disabled={questions[currentQuestion].answered}
-                                    style={{ margin: '5px', width: '200px', padding: '10px' }}
                                 >
                                     {option}
                                 </button>
                             </li>
                         ))}
                     </ul>
-                    {currentQuestion > 0 && (
-                        <button onClick={goToPreviousQuestion}  style={{ margin: '5px', width: '200px', padding: '10px' }}>Question précédente</button>
-                    )}
-                    {currentQuestion < questions.length - 1 ? (
-                        <button onClick={() => setCurrentQuestion(currentQuestion + 1)}  style={{ margin: '5px', width: '200px', padding: '10px' }}>Question suivante</button>
-                    ) : (
-                        <button onClick={showFinalScore}  style={{ margin: '5px', width: '200px', padding: '10px' }}>Voir le score</button>
-                    )}
+                    <div className="quiz-navigation">
+                        {currentQuestion > 0 && (
+                            <button onClick={goToPreviousQuestion} className="quiz-button">Question précédente</button>
+                        )}
+                        {currentQuestion < questions.length - 1 ? (
+                            <button onClick={() => setCurrentQuestion(currentQuestion + 1)} className="quiz-button">Question suivante</button>
+                        ) : (
+                            <button onClick={showFinalScore} className="quiz-button">Voir le score</button>
+                        )}
+                    </div>
                 </div>
             )}
-            <style>
-                {`
-                    button.selected {
-                        background-color: blue;
-                        color: black;
-                    }
-                `}
-            </style>
         </div>
     );
 }

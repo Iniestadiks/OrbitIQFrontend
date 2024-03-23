@@ -4,18 +4,29 @@ import NewsletterSignup from './NewsletterSignup';
 function Newsletter() {
     const [showSignupForm, setShowSignupForm] = useState(false);
 
-    const handleSignupClick = () => {
+    const handleSignupClick = (e) => {
+        e.preventDefault(); // Prévenir le comportement par défaut du lien
         setShowSignupForm(true);
     };
 
     return (
-        <div style={{ padding: '20px' }}>
+        <div style={{ padding: '20px', maxWidth: '600px', margin: '0 auto', textAlign: 'center' }}>
             <h1>Newsletter</h1>
             <p>Inscrivez-vous à notre newsletter pour recevoir les dernières nouvelles et mises à jour.</p>
             {showSignupForm ? (
                 <NewsletterSignup />
             ) : (
-                <a href="#inscription-newsletter" onClick={handleSignupClick} style={{ textDecoration: 'none', backgroundColor: 'blue', color: 'white', padding: '10px 20px', borderRadius: '5px', display: 'inline-block' }}>S'inscrire à la newsletter</a>
+                <button onClick={handleSignupClick} style={{ 
+                    textDecoration: 'none', 
+                    backgroundColor: 'grey', // Couleur grise pour respecter la charte
+                    color: 'white', 
+                    padding: '15px 30px', // Plus grand bouton
+                    borderRadius: '5px', 
+                    border: 'none', 
+                    cursor: 'pointer',
+                    fontSize: '18px', // Police plus grande pour une meilleure lisibilité
+                    marginTop: '10px' // Ajoutez un peu d'espace au-dessus du bouton
+                }}>S'inscrire à la newsletter</button>
             )}
         </div>
     );

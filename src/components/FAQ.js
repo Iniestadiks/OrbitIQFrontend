@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './FAQ.css'; 
 
 // Exemple de données pour la FAQ avec plus de questions
 const faqData = [
@@ -21,26 +22,32 @@ const faqData = [
 ];
 
 function FAQ() {
-    // Utiliser useState pour gérer l'ouverture/fermeture des réponses
     const [activeIndex, setActiveIndex] = useState(null);
 
-    // Fonction pour changer l'index actif
     const toggleFAQ = index => {
         setActiveIndex(activeIndex === index ? null : index);
     };
 
     return (
-        <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif' }}>
-            <h1>Foire aux questions (FAQ)</h1>
-            <div style={{ maxWidth: '800px', margin: 'auto' }}>
+        <div className="faq-container">
+            <h1 className="faq-title">Foire aux questions (FAQ)</h1>
+            <div className="faq-content">
                 {faqData.map((faq, index) => (
-                    <div key={index} style={{ marginBottom: '10px', borderBottom: '1px solid #ddd', cursor: 'pointer' }}>
-                        <h3 onClick={() => toggleFAQ(index)} style={{ color: '#007bff', cursor: 'pointer' }}>{faq.question}</h3>
-                        <p style={{ display: activeIndex === index ? 'block' : 'none', marginTop: '5px' }}>{faq.answer}</p>
+                    <div 
+                        key={index} 
+                        className={`faq-item ${activeIndex === index ? 'active' : ''}`}
+                        onClick={() => toggleFAQ(index)}
+                    >
+                        <h3 className="faq-question">
+                            {faq.question}
+                            <span className="faq-icon">{activeIndex === index ? '▲' : '▼'}</span>
+                        </h3>
+                        <p className="faq-answer">{faq.answer}</p>
                     </div>
                 ))}
             </div>
         </div>
     );
 }
+
 export default FAQ;

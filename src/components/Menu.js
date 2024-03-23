@@ -1,9 +1,19 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 function Menu() {
-    const [menuOpen, setMenuOpen] = useState(false); // Ajoute un état pour contrôler l'ouverture du menu
+    const [menuOpen, setMenuOpen] = useState(false);
+    const navigate = useNavigate(); // Hook de React Router pour naviguer programmablement
 
+    const closeMenu = () => {
+        setMenuOpen(false);
+    };
+
+    const goToHome = () => {
+        closeMenu(); // Ferme le menu
+        navigate('/'); // Navigue programmablement à la page d'accueil
+        window.location.reload(); // Rafraîchit la page pour simuler une navigation complète
+    };
     // Style pour le menu vertical
     const menuStyle = {
         position: 'fixed',
@@ -48,12 +58,13 @@ function Menu() {
                 ☰
             </div>
             <div style={menuStyle}>
-                <Link to="/" style={linkStyle}>Accueil</Link>
-                <Link to="/articles" style={linkStyle}>Articles</Link>
-                <Link to="/contact" style={linkStyle}>Contactez-nous</Link>
-                <Link to="/quiz" style={linkStyle}>Quiz</Link>
-                <Link to="/register" style={linkStyle}>Register</Link>
-                <Link to="/connexion" style={linkStyle}>Connexion</Link>
+                <div style={linkStyle} onClick={goToHome}>Accueil</div>
+                <Link to="/articles" style={linkStyle} onClick={closeMenu}>Articles</Link>
+                <Link to="/contact" style={linkStyle} onClick={closeMenu}>Contactez-nous</Link>
+                <Link to="/quiz" style={linkStyle} onClick={closeMenu}>Quiz</Link>
+                <Link to="/register" style={linkStyle} onClick={closeMenu}>Inscription</Link>
+                <Link to="/connexion" style={linkStyle} onClick={closeMenu}>Connexion</Link>
+                <Link to="/about" style={linkStyle} onClick={closeMenu}>À propos</Link> {/* Ajoutez cette ligne pour inclure "À propos" dans le menu */}
                 {/* Ajoutez d'autres liens au besoin */}
             </div>
         </div>

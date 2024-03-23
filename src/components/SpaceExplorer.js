@@ -336,7 +336,7 @@ function SpaceExplorer() {
                                     transform: 'scale(1)',
                                     transition: 'opacity 2s, transform 2s'
                                 });
-                            }, 2000); // Delai avant d'afficher les informations
+                            }, 500); // Delai avant d'afficher les informations
                         }
                     });
                 }

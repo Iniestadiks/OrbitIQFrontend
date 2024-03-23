@@ -1,0 +1,32 @@
+.cgu-container {
+    padding: 20px;
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.cgu-acceptance, .cgu-accepted-message {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #f4f4f4; /* Light gray background */
+    border-radius: 10px;
+}
+
+.cgu-accept-btn {
+    display: inline-block;
+    background-color: grey; /* Or your preferred button color */
+    color: white;
+    padding: 10px 20px;
+    margin-top: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    border: none;
+    font-size: 18px;
+}
+
+.cgu-accept-btn:hover {
+    background-color: #A9A9A9; /* A darker grey for hover */
+}

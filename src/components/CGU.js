@@ -1,10 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 function CGU() {
+    const [accepted, setAccepted] = useState(false);
+
+    const handleAccept = () => {
+        setAccepted(true);
+        // Vous pouvez ajouter d'autres actions ici, comme rediriger l'utilisateur après l'acceptation
+    };
+
     return (
-        <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif', lineHeight: '1.6', maxWidth: '800px', margin: '0 auto' }}>
-            <h1 style={{ textAlign: 'center' }}>Conditions Générales d'Utilisation (CGU)</h1>
-            
+        <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif', lineHeight: '1.6', maxWidth: '800px', margin: '0 auto', textAlign: 'center' }}>
+            <h1>Conditions Générales d'Utilisation (CGU)</h1>
+
             <h2>Bienvenue sur OrbitIQ</h2>
             <p>Ces conditions générales régissent votre utilisation de notre application OrbitIQ et de toutes les fonctionnalités associées. En utilisant notre application, vous acceptez ces conditions dans leur intégralité; si vous êtes en désaccord avec ces conditions ou une partie de ces conditions, vous ne devez pas utiliser cette application.</p>
 
@@ -28,6 +35,15 @@ function CGU() {
 
             <h2>Loi et juridiction</h2>
             <p>Ces conditions générales seront régies et interprétées conformément aux lois de France, et tout litige relatif à ces conditions générales sera soumis à la juridiction exclusive des tribunaux de France.</p>
+
+            {!accepted && (
+                <div style={{ marginTop: '20px' }}>
+                    <button onClick={handleAccept} style={{ backgroundColor: 'grey', color: 'white', padding: '10px 20px', border: 'none', borderRadius: '5px', cursor: 'pointer' }}>J'accepte les conditions</button>
+                </div>
+            )}
+            {accepted && (
+                <p style={{ marginTop: '20px', color: 'green' }}>Merci d'avoir accepté les conditions d'utilisation.</p>
+            )}
         </div>
     );
 }

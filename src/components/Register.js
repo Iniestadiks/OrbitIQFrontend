@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-
+import { Link } from 'react-router-dom'; 
 function RegisterForm() {
     const [formData, setFormData] = useState({
         name: '',
@@ -37,34 +37,32 @@ function RegisterForm() {
     };
 
     return (
-        <div style={{ maxWidth: '400px', margin: '0 auto' }}>
-            <h2 style={{ fontSize: '24px', marginBottom: '20px' }}>Inscription</h2>
+        <div style={{ maxWidth: '400px', margin: '40px auto', padding: '20px', borderRadius: '10px', boxShadow: '0 2px 4px rgba(0,0,0,.2)' }}>
+            <h2 style={{ fontSize: '24px', marginBottom: '20px', textAlign: 'center' }}>Inscription</h2>
             <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column' }}>
-                <div style={{ display: 'flex', flexDirection: 'column', marginBottom: '10px' }}>
-                    <label style={{ marginBottom: '10px' }}>
-                        Nom
-                        <input
-                            type="text"
-                            name="name"
-                            value={formData.name}
-                            onChange={handleChange}
-                            required
-                            style={{ width: '100%', padding: '8px', borderRadius: '5px', border: '1px solid #ccc', marginBottom: '15px' }}
-                        />
-                    </label>
-                    <label style={{ marginBottom: '10px' }}>
-                        Email
-                        <input
-                            type="email"
-                            name="email"
-                            value={formData.email}
-                            onChange={handleChange}
-                            required
-                            style={{ width: '100%', padding: '8px', borderRadius: '5px', border: '1px solid #ccc', marginBottom: '15px' }}
-                        />
-                    </label>
-                </div>
-                <label style={{ marginBottom: '10px' }}>
+                <label style={{ marginBottom: '15px' }}>
+                    Nom
+                    <input
+                        type="text"
+                        name="name"
+                        value={formData.name}
+                        onChange={handleChange}
+                        required
+                        style={{ width: '100%', padding: '12px', borderRadius: '5px', border: '1px solid #ccc', marginTop: '5px' }}
+                    />
+                </label>
+                <label style={{ marginBottom: '15px' }}>
+                    Email
+                    <input
+                        type="email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleChange}
+                        required
+                        style={{ width: '100%', padding: '12px', borderRadius: '5px', border: '1px solid #ccc', marginTop: '5px' }}
+                    />
+                </label>
+                <label style={{ marginBottom: '15px' }}>
                     Mot de passe
                     <input
                         type="password"
@@ -72,10 +70,10 @@ function RegisterForm() {
                         value={formData.password}
                         onChange={handleChange}
                         required
-                        style={{ width: '100%', padding: '8px', borderRadius: '5px', border: '1px solid #ccc', marginBottom: '15px' }}
+                        style={{ width: '100%', padding: '12px', borderRadius: '5px', border: '1px solid #ccc', marginTop: '5px' }}
                     />
                 </label>
-                <label style={{ marginBottom: '10px' }}>
+                <label style={{ marginBottom: '20px' }}>
                     Confirmer le mot de passe
                     <input
                         type="password"
@@ -83,11 +81,14 @@ function RegisterForm() {
                         value={formData.confirmPassword}
                         onChange={handleChange}
                         required
-                        style={{ width: '100%', padding: '8px', borderRadius: '5px', border: '1px solid #ccc', marginBottom: '15px' }}
+                        style={{ width: '100%', padding: '12px', borderRadius: '5px', border: '1px solid #ccc', marginTop: '5px' }}
                     />
                 </label>
                 {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
-                <button type="submit" style={{ backgroundColor: '#007bff', color: 'white', border: 'none', borderRadius: '5px', padding: '10px 20px', cursor: 'pointer' }}>S'inscrire</button>
+            <button type="submit" style={{ backgroundColor: 'grey', color: 'white', border: 'none', borderRadius: '5px', padding: '15px 30px', cursor: 'pointer', display: 'block', width: '100%' }}>S'inscrire</button>
+            <div style={{ marginTop: '20px', textAlign: 'center' }}>
+                Vous avez déjà un compte? <Link to="/connexion" style={{ color: '#007bff' }}>Se connecter</Link>
+            </div>
             </form>
         </div>
     );

@@ -15,8 +15,8 @@ function NewsletterSignup() {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        // Ajoutez ici la logique pour envoyer les données du formulaire à votre service de newsletter
-        alert(`Inscription réussie avec le nom : ${formData.name} et l'adresse e-mail : ${formData.email}`);
+        // Logique d'envoi des données du formulaire
+        alert(`Inscription réussie pour ${formData.name} avec l'e-mail : ${formData.email}`);
         setFormData({
             name: '',
             email: ''
@@ -24,10 +24,10 @@ function NewsletterSignup() {
     };
 
     return (
-        <div style={{ padding: '20px' }}>
+        <div style={{ padding: '20px', maxWidth: '600px', margin: '0 auto', textAlign: 'center' }}>
             <h1>Inscription à la Newsletter</h1>
-            <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column' }}>
-                <label style={{ marginBottom: '10px' }}>
+            <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                <label style={{ marginBottom: '10px', width: '100%' }}>
                     Nom :
                     <input
                         type="text"
@@ -35,21 +35,32 @@ function NewsletterSignup() {
                         value={formData.name}
                         onChange={handleChange}
                         required
-                        style={{ marginTop: '5px' }}
+                        style={{ marginTop: '5px', width: '100%', padding: '10px' }}
                     />
                 </label>
-                <label style={{ marginBottom: '10px' }}>
-                    e-mail :
+                <label style={{ marginBottom: '10px', width: '100%' }}>
+                    E-mail :
                     <input
                         type="email"
                         name="email"
                         value={formData.email}
                         onChange={handleChange}
                         required
-                        style={{ marginTop: '5px' }}
+                        style={{ marginTop: '5px', width: '100%', padding: '10px' }}
                     />
                 </label>
-                <button type="submit" style={{ marginTop: '10px', alignSelf: 'center', width: '150px', backgroundColor: 'blue', color: 'white' }}>S'inscrire</button>
+                <button type="submit" style={{ 
+                    marginTop: '20px', 
+                    alignSelf: 'center', 
+                    width: '200px', 
+                    backgroundColor: 'grey',  // Change to fit your color scheme
+                    color: 'white', 
+                    padding: '15px 30px', 
+                    border: 'none', 
+                    borderRadius: '5px',
+                    cursor: 'pointer',
+                    fontSize: '16px'  // Larger font size
+                }}>S'inscrire</button>
             </form>
         </div>
     );
