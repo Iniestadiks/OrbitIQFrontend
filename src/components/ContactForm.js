@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-
+import './ContactForm.css';
 function ContactForm() {
     const [formData, setFormData] = useState({
         name: '',
@@ -29,54 +29,50 @@ function ContactForm() {
     };
 
     return (
-        <div style={{ padding: '20px', maxWidth: '600px', margin: '0 auto' }}>
-            <h1 style={{ textAlign: 'center' }}>Contactez-nous</h1>
-            <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                <label style={{ marginBottom: '10px', width: '100%' }}>
-                    Nom 
+        <div className="contact-form-container">
+            <h1>Contactez-nous</h1>
+            <form onSubmit={handleSubmit}>
+                <div className="form-group">
+                    <label>Nom</label>
                     <input
                         type="text"
                         name="name"
                         value={formData.name}
                         onChange={handleChange}
                         required
-                        style={{ marginTop: '5px', width: '100%' }}
                     />
-                </label>
-                <label style={{ marginBottom: '10px', width: '100%' }}>
-                    Adresse e-mail 
+                </div>
+                <div className="form-group">
+                    <label>Adresse e-mail</label>
                     <input
                         type="email"
                         name="email"
                         value={formData.email}
                         onChange={handleChange}
                         required
-                        style={{ marginTop: '5px', width: '100%' }}
                     />
-                </label>
-                <label style={{ marginBottom: '10px', width: '100%' }}>
-                    Téléphone 
+                </div>
+                <div className="form-group">
+                    <label>Téléphone</label>
                     <input
                         type="tel"
                         name="phone"
                         value={formData.phone}
                         onChange={handleChange}
                         required
-                        style={{ marginTop: '5px', width: '100%' }}
                     />
-                </label>
-                <label style={{ marginBottom: '10px', width: '100%' }}>
-                    Message 
+                </div>
+                <div className="form-group">
+                    <label>Message</label>
                     <textarea
                         name="message"
                         value={formData.message}
                         onChange={handleChange}
                         required
                         rows="4"
-                        style={{ marginTop: '5px', width: '100%' }}
                     ></textarea>
-                </label>
-                <button type="submit" style={{ marginTop: '10px', width: '150px', backgroundColor: 'blue', color: 'white' }}>Envoyer</button>
+                </div>
+                <button type="submit">Envoyer</button>
             </form>
         </div>
     );

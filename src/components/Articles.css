@@ -1,0 +1,56 @@
+.articles-container {
+    text-align: center;
+    padding: 20px;
+    background-color: #adafb3; /* Fond bleu pour le conteneur */
+}
+
+.articles-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+
+.article-item {
+    background-color: #f0f0f0; /* Fond gris pour chaque article */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    margin-bottom: 20px; /* Ajout pour un meilleur espacement */
+}
+
+/* Responsivité: 3 articles par ligne pour les écrans moyens et grands */
+@media (min-width: 768px) {
+    .article-item {
+        width: calc(33.333% - 40px); /* Ajustement pour 3 articles par ligne en incluant l'espacement */
+    }
+}
+
+/* Responsivité: 2 articles par ligne pour les petits écrans */
+@media (max-width: 767px) {
+    .article-item {
+        width: calc(50% - 40px); /* Ajustement pour 2 articles par ligne en incluant l'espacement */
+    }
+}
+
+.article-item h2 {
+    margin-top: 0;
+}
+
+.article-item p {
+    font-size: 14px;
+}
+
+.article-item a {
+    display: inline-block;
+    background-color: grey; /* Boutons gris */
+    color: white;
+    padding: 10px 20px;
+    margin-top: 10px;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+.article-item a:hover {
+    background-color: darkgrey; /* Boutons plus foncés au survol */
+}
